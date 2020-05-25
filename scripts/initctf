@@ -1,0 +1,59 @@
+#!/usr/bin/env python
+import argparse
+import os
+import shutil
+
+
+TEMPLATE_CTF = '.template'
+DEBUG_DIR = '.debug'
+
+TEMPLATE_NAME = 'template.py'
+DEFAULT_TEMPLATE = b"""# run `pwn template > template.py`
+# This is the default template at $PROJECT_HOME/.template/template.py
+"""
+
+FAKE_FLAG = b'FLAG{THIS_IS_A_FLAG}'
+FLAG_FILES = ['flag', 'flag.txt']
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Copy files into CTF work directory')
+    parser.add_argument('name', metavar='n', type=str,
+                    help='Name of CTF directory within $PROJECT_HOME directory')
+    args = parser.parse_args()
+    name = args.name
+
+    project_home = os.getenv('PROJECT_HOME')
+    ctf_directory = os.path.join(project_home, name)
+
+    # create debug directory if not exist
+    debug_dir = os.path.join(project_home, DEBUG_DIR)
+    if not os.path.exists(debug_dir):
+        os.mkdir(debug_dir)
+
+    # create template ctf if not exist
+    template_ctf_directory = os.path.join(project_home, TEMPLATE_CTF)
+    if not os.path.exists(template_ctf_directory):
+        os.mkdir(template_ctf_directory)
+
+    # create base template script if not exist
+    template_script = os.path.join(template_ctf_directory, TEMPLATE_NAME)
+    if not os.path.exists(template_script):
+        with open(template_script, 'wb') as f:
+            f.write(DEFAULT_TEMPLATE)
+
+    # create fake flag files if not exist
+    for fname in FLAG_FILES:
+        fpath = os.path.join(template_ctf_directory, fname)
+        if not os.path.exists(fpath):
+            with open(fpath, 'wb') as f:
+                f.write(FAKE_FLAG)
+
+    # copy template directory into new CTF
+    for fname in os.listdir(template_ctf_directory):
+        src_path = os.path.join(template_ctf_directory, fname)
+        dst_path = os.path.join(ctf_directory, fname)
+        if os.path.isfile(src_path):
+            shutil.copy(src_path, dst_path)
+        elif os.path.isdir(src_path):
+            shutil.copytree(src_path, dst_path)

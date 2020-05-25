@@ -1,0 +1,26 @@
+#!/bin/bash
+
+source /usr/local/bin/virtualenvwrapper.sh
+
+if [ "$1" != "" ]; then
+    mkproject -t ctf $1
+    echo "$1" > $PROJECT_HOME/.active_ctf
+
+    # add $PROJECT_HOME virtualenv if exists
+    cd $PROJECT_HOME \
+      && workon . \
+      && cdsitepackages \
+      && export PROJECT_SITE_PACKAGES=`pwd` \
+      && deactivate \
+      && workon $1 \
+      && add2virtualenv $PROJECT_SITE_PACKAGES \
+      && deactivate
+
+    # initilize CTF directory
+    initctf $1
+
+    echo "Run this to start working on CTF:"
+    echo "workon $1"
+else
+    echo "Please  provide CTF directory name"
+fi
