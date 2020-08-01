@@ -4,8 +4,8 @@ import os
 import shutil
 
 
-DEBUG_DIR = '.debug'
-TEMPLATE_NAME = 'template.py'
+MISC_DIR = '.misc'
+TEMPLATE_NAME = 'solve.py'
 FLAG_FILES = ['flag', 'flag.txt']
 
 def get_challenge_files(project_home, ctf_directory):
@@ -14,10 +14,10 @@ def get_challenge_files(project_home, ctf_directory):
     """
     files = []
 
-    # copy debuggers
-    debug_dir = os.path.join(project_home, DEBUG_DIR)
-    for fname in os.listdir(debug_dir):
-        fpath = os.path.join(debug_dir, fname)
+    # copy debuggers and other misc files
+    misc_dir = os.path.join(project_home, MISC_DIR)
+    for fname in os.listdir(misc_dir):
+        fpath = os.path.join(misc_dir, fname)
         files.append(fpath)
 
     # copy template script

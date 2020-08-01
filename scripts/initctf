@@ -5,11 +5,11 @@ import shutil
 
 
 TEMPLATE_CTF = '.template'
-DEBUG_DIR = '.debug'
+MISC_DIR = '.misc'
 
-TEMPLATE_NAME = 'template.py'
-DEFAULT_TEMPLATE = b"""# run `pwn template > template.py`
-# This is the default template at $PROJECT_HOME/.template/template.py
+TEMPLATE_NAME = 'solve.py'
+DEFAULT_TEMPLATE = b"""# run `pwn template > solve.py`
+# This is the default template at $PROJECT_HOME/.template/solve.py
 """
 
 FAKE_FLAG = b'FLAG{THIS_IS_A_FLAG}'
@@ -26,10 +26,10 @@ if __name__ == '__main__':
     project_home = os.getenv('PROJECT_HOME')
     ctf_directory = os.path.join(project_home, name)
 
-    # create debug directory if not exist
-    debug_dir = os.path.join(project_home, DEBUG_DIR)
-    if not os.path.exists(debug_dir):
-        os.mkdir(debug_dir)
+    # create misc directory if not exist
+    misc_dir = os.path.join(project_home, MISC_DIR)
+    if not os.path.exists(misc_dir):
+        os.mkdir(misc_dir)
 
     # create template ctf if not exist
     template_ctf_directory = os.path.join(project_home, TEMPLATE_CTF)

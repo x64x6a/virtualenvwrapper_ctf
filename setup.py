@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 PROJECT = 'virtualenvwrapper_ctf'
-VERSION = '0.0.1'
+VERSION = '0.0.2'
 
 # Bootstrap installation of Distribute
 from setuptools import setup,  find_packages
@@ -11,7 +11,7 @@ setup(
     version=VERSION,
     platforms=['Any'],
     provides=['virtualenvwrapper_ctf'],
-    requires=['virtualenv', 'virtualenvwrapper', 'pwntools'],
+    requires=['virtualenv', 'virtualenvwrapper'],
     namespace_packages=['virtualenvwrapper'],
     packages=find_packages(),
     include_package_data=True,
@@ -25,5 +25,6 @@ setup(
         'scripts/addchallenge',
         'scripts/initctf',
         'scripts/startctf',
+        'scripts/endctf',
     ]
 )

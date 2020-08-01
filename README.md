@@ -20,7 +20,7 @@ The `$PROJECT_HOME` directory should have an associated virtualenv, as this will
 (ctf) ~/ctf$ pip install pwntools angr
 ```
 
-Optionally create a `.debug` directory and a `.template` directory.  These will be used as default files for CTFs.  Files in `.debug` will be copied to each challenge. Files in `.template` will be copied to a new CTF's root folder and each new challenge will copy that instance.
+Optionally create a `.misc` directory and a `.template` directory.  These will be used as default files for CTFs.  Files in `.misc` will be copied to each challenge, possibly debuggers or note templates. Files in `.template` will be copied to a new CTF's root folder and each new challenge will copy that instance.  This is performed so you can customize a template script (and flag format) per CTF.
 
 Start a new ctf:
 ```bash
@@ -36,9 +36,10 @@ Start a new challenge while within the virtualenv, use `addchallenge [category] 
 flag  flag.txt  template.py
 ```
 
-Another feature is to allow all new bash instances to start working on the "active" CTF.  This can be done by adding this to your `~/.bashrc`:
+To allow all new bash instances to start working on the "active" CTF, add this to your `~/.bashrc`:
 ```bash
 source /usr/local/bin/active_ctf.sh
 ```
+This will add a `.active_ctf` file in `$PROJECT_HOME` containing the name of the CTF.
 
-If you wish to disable this after the CTF, feel free to delete/edit `$PROJECT_HOME/.active_ctf`.  A script will be added in the future to do this.
+If you wish to disable this after the CTF, run `endctf` which will simply delete the `.active_ctf` file.

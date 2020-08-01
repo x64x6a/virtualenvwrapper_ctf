@@ -1,0 +1,6 @@
+#!/bin/bash
+
+source /usr/local/bin/virtualenvwrapper.sh
+
+
+rm $PROJECT_HOME/.active_ctf
