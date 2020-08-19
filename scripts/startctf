@@ -3,22 +3,27 @@
 source /usr/local/bin/virtualenvwrapper.sh
 
 if [ "$1" != "" ]; then
-    mkproject -t ctf $1
-    echo "$1" > $PROJECT_HOME/.active_ctf
+    CTF_EXISTS=`lsvirtualenv -b | grep -w "$1"`
 
-    # add $PROJECT_HOME virtualenv if exists
-    cd $PROJECT_HOME \
-      && workon . \
-      && cdsitepackages \
-      && export PROJECT_SITE_PACKAGES=`pwd` \
-      && deactivate \
-      && workon $1 \
-      && add2virtualenv $PROJECT_SITE_PACKAGES \
-      && deactivate
+    # create virtualenv if not exist
+    if [ "$CTF_EXISTS" == "" ]; then
+      mkproject -f -t ctf $1
+      cd $PROJECT_HOME \
+        && workon . \
+        && cdsitepackages \
+        && export PROJECT_SITE_PACKAGES=`pwd` \
+        && deactivate \
+        && workon $1 \
+        && add2virtualenv $PROJECT_SITE_PACKAGES \
+        && deactivate
 
-    # initilize CTF directory
-    initctf $1
+      # initilize CTF directory, if not already initialized
+      if [ -f "$PROJECT_HOME/$1/flag.txt" ]; then
+          initctf $1
+      fi
+    fi
 
+    echo "$1" > "$PROJECT_HOME/.active_ctf"
     echo "Run this to start working on CTF:"
     echo "workon $1"
 else
