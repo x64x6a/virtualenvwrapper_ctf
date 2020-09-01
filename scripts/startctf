@@ -18,7 +18,7 @@ if [ "$1" != "" ]; then
         && deactivate
 
       # initilize CTF directory, if not already initialized
-      if [ -f "$PROJECT_HOME/$1/flag.txt" ]; then
+      if [ ! -f "$PROJECT_HOME/$1/flag.txt" ]; then
           initctf $1
       fi
     fi
