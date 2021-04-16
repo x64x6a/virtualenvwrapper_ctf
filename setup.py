@@ -4,7 +4,7 @@ PROJECT = 'virtualenvwrapper_ctf'
 VERSION = '0.0.3'
 
 # Bootstrap installation of Distribute
-from setuptools import setup,  find_packages
+from setuptools import setup, find_packages
 
 setup(
     name=PROJECT,
@@ -17,7 +17,10 @@ setup(
     include_package_data=True,
     entry_points={
         'virtualenvwrapper.project.template': [
-            'ctf = vctf.ctf:template',
+            'ctf = vctf.__init__:template',
+        ],
+        'console_scripts': [
+            'vctf=vctf.__main__:main',
         ],
     },
     scripts=[
