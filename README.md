@@ -24,13 +24,13 @@ Optionally create a `.misc` directory and a `.template` directory.  These will b
 
 Start a new ctf:
 ```bash
-startctf pwnable.kr
+vctf --init pwnable.kr
 workon pwnable.kr
 ```
 
 Start a new challenge while within the virtualenv, use `addchallenge [category] [challenge name]`:
 ```bash
-(pwnable.kr) ~/ctf/pwnable.kr$ addchallenge toddlers bof
+(pwnable.kr) ~/ctf/pwnable.kr$ vctf --add toddlers bof
 (pwnable.kr) ~/ctf/pwnable.kr$ cd toddlers/bof/
 (pwnable.kr) ~/ctf/pwnable.kr/toddlers/bof$ ls
 flag  flag.txt  template.py
