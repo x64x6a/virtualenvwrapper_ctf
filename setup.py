@@ -11,7 +11,7 @@ setup(
     version=VERSION,
     platforms=['Any'],
     provides=['virtualenvwrapper_ctf'],
-    requires=['virtualenv', 'virtualenvwrapper'],
+    requires=['virtualenv', 'virtualenvwrapper', 'requests'],
     namespace_packages=['vctf'],
     packages=find_packages(),
     include_package_data=True,
