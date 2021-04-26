@@ -133,6 +133,14 @@ def init(config, name, username=None, password=None, url=None, platform=None, di
     ## Set as active CTF and setup virtualenv
     set_active(name)
 
+def end():
+    """
+    Remove active CTF by removing .active_ctf file
+    """
+    project_home = get_project_home()
+    active_ctf = os.path.join(project_home, ACTIVE_CTF)
+    if os.path.isfile(active_ctf):
+        os.remove(active_ctf)
 
 def get_challenge_files(project_home, ctf_directory):
     """
