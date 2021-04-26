@@ -11,7 +11,12 @@ setup(
     version=VERSION,
     platforms=['Any'],
     provides=['virtualenvwrapper_ctf'],
-    requires=['virtualenv', 'virtualenvwrapper', 'requests'],
+    install_requires=[
+        'virtualenv',
+        'virtualenvwrapper',
+        'requests>=2.25.1',
+        'pandas>=1.2.4',
+    ],
     namespace_packages=['vctf'],
     packages=find_packages(),
     include_package_data=True,
@@ -24,7 +29,6 @@ setup(
         ],
     },
     scripts=[
-        'scripts/active_ctf.sh',
         'scripts/addchallenge',
         'scripts/initctf',
         'scripts/startctf',

@@ -38,7 +38,13 @@ flag  flag.txt  template.py
 
 To allow all new bash instances to start working on the "active" CTF, add this to your `~/.bashrc`:
 ```bash
-source /usr/local/bin/active_ctf.sh
+if [ ! -z "$PROJECT_HOME" ]
+then
+    if [ -s "$PROJECT_HOME/.active_ctf" ]
+    then
+        workon `cat $PROJECT_HOME/.active_ctf`
+    fi
+fi
 ```
 This will use the `.active_ctf` file in `$PROJECT_HOME` containing the name of the CTF.
 
