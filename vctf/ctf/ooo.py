@@ -102,16 +102,3 @@ class OOO(CTF):
                     with open(c, 'wb') as f:
                         f.write(r.content)
                     print(" [+] Added file for challenge \"{name}\" '{filename}'".format(name=name, filename=c))
-
-
-
-
-
-
-
-
-
-
-
-"""
-"""
