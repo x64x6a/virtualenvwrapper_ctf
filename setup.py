@@ -29,9 +29,6 @@ setup(
         ],
     },
     scripts=[
-        'scripts/addchallenge',
-        'scripts/initctf',
         'scripts/startctf',
-        'scripts/endctf',
     ]
 )

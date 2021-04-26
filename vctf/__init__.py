@@ -15,4 +15,4 @@ def template(args):
     project_path = os.getenv('PROJECT_HOME')
 
     filepath = os.path.join(project_path, project_name)
-    subprocess.check_call(['initctf', filepath])
+    subprocess.check_call(['vctf', 'init', project_name])
