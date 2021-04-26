@@ -3,6 +3,8 @@ import argparse
 import os
 import shutil
 
+from vctf.vctf import get_active
+
 
 MISC_DIR = '.misc'
 TEMPLATE_NAME = 'solve.py'
@@ -35,7 +37,8 @@ def get_challenge_files(project_home, ctf_directory):
 def add_challenge(category, name):
     project_home = os.getenv('PROJECT_HOME')
     virtual_env = os.getenv('VIRTUAL_ENV')
-    ctf_name = os.path.basename(os.path.normpath(virtual_env))
+    #ctf_name = os.path.basename(os.path.normpath(virtual_env))
+    ctf_name = get_active()
     ctf_directory = os.path.join(project_home, ctf_name)
 
     # create category if not exist
@@ -46,7 +49,8 @@ def add_challenge(category, name):
     # create challenge directory
     challenge_path = os.path.join(category_path, name)
     if not os.path.exists(challenge_path):
-        os.mkdir(challenge_path)
+        return False
+        #os.mkdir(challenge_path)
 
     # populate challenge directory
     files = get_challenge_files(project_home, ctf_directory)
@@ -56,3 +60,4 @@ def add_challenge(category, name):
             shutil.copy(src_path, dst_path)
         elif os.path.isdir(src_path):
             shutil.copytree(src_path, dst_path)
+    return True

@@ -3,12 +3,8 @@ import os
 import shutil
 import subprocess
 
-from vctf.ctf import CTFd
+from vctf.ctf import platforms
 
-
-platforms = {
-    "CTFd": CTFd,
-}
 
 TEMPLATE_DIR = '.template'
 MISC_DIR = '.misc'
@@ -41,6 +37,13 @@ def get_ctf_config(name):
             f.write('')
     return ctf_config
 
+def get_active():
+    project_home = get_project_home()
+    active_ctf = os.path.join(project_home, ACTIVE_CTF)
+    with open(active_ctf, 'r') as f:
+        name = f.read()
+    return name
+
 def set_active(name):
     ## Set as active CTF
     project_home = get_project_home()
@@ -55,8 +58,13 @@ def init(config, name, username=None, password=None, url=None, platform=None, di
     """
     Initialize a CTF, saves config, and sets it as the active
     """
-    if platform != None and plaform not in plaforms:
-        raise Exception("Given platform is not supported")
+    if platform != None:
+        for key in platforms:
+            if platform.lower() == key.lower():
+                platform = key
+                break
+        else:
+            raise Exception("Given platform is not supported")
 
     # set CTFs' root directory
     if project_home == None:
@@ -125,39 +133,54 @@ def init(config, name, username=None, password=None, url=None, platform=None, di
     ## Set as active CTF and setup virtualenv
     set_active(name)
 
-def load(config):
-    """
-    Loads a CTF from config and sets as active
-    """
-    pass
 
-def end(config):
+def get_challenge_files(project_home, ctf_directory):
     """
-    Remove current CTF as active
+    returns a list of files to copy into a challenge
     """
-    pass
+    files = []
 
+    # copy debuggers and other misc files
+    misc_dir = os.path.join(project_home, MISC_DIR)
+    for fname in os.listdir(misc_dir):
+        fpath = os.path.join(misc_dir, fname)
+        files.append(fpath)
 
-def pull(config):
-    """
-    Pull challenges for active CTF
-    """
-    pass
+    # copy template script
+    fpath = os.path.join(ctf_directory, TEMPLATE_NAME)
+    files.append(fpath)
 
-def add(config, challenge):
-    """
-    Manually add challenge for active CTF
-    """
-    pass
+    # copy flags
+    for fname in FLAG_FILES:
+        fpath = os.path.join(ctf_directory, fname)
+        files.append(fpath)
 
-def delete(config, challenge):
-    """
-    Manually delete challenge for active CTF
-    """
-    pass
+    return files
 
-def submit(config, challenge, flag):
-    """
-    Submit a given flag for a given challenge for the active CTF
-    """
-    pass
+def add_challenge(category, name):
+    project_home = os.getenv('PROJECT_HOME')
+    ctf_name = get_active()
+    ctf_directory = os.path.join(project_home, ctf_name)
+
+    # create category if not exist
+    category_path = os.path.join(ctf_directory, category)
+    if not os.path.exists(category_path):
+        os.mkdir(category_path)
+
+    # create challenge directory
+    challenge_path = os.path.join(category_path, name)
+    if not os.path.exists(challenge_path):
+        os.mkdir(challenge_path)
+    else:
+        # already populated, skip and return
+        return challenge_path
+
+    # populate challenge directory
+    files = get_challenge_files(project_home, ctf_directory)
+    for src_path in files:
+        dst_path = os.path.join(challenge_path, os.path.basename(src_path))
+        if os.path.isfile(src_path):
+            shutil.copy(src_path, dst_path)
+        elif os.path.isdir(src_path):
+            shutil.copytree(src_path, dst_path)
+    return challenge_path
