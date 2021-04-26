@@ -1,9 +1,11 @@
 import configparser
 from vctf.ctf.ctfd import CTFd
+from vctf.ctf.ooo import OOO
 
 
 platforms = {
     "CTFd": CTFd,
+    "OOO": OOO,
 }
 
 def get_platforms():

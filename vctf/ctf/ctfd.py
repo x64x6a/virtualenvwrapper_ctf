@@ -146,7 +146,7 @@ class CTFd(CTF):
                 r = urlparse(route)
                 filename = os.path.basename(r.path)
 
-                # quick check to determine if we escape up a directory
+                # quick check to determine if escape up a directory
                 challenge_file = os.path.join(challenge_path, filename)
                 c = os.path.realpath(challenge_file)
                 d = os.path.realpath(challenge_path)
