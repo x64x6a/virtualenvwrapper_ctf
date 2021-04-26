@@ -24,7 +24,7 @@ Optionally create a `.misc` directory and a `.template` directory.  These will b
 
 Start a new ctf:
 ```bash
-vctf --init pwnable.kr
+vctf init pwnable.kr
 workon pwnable.kr
 ```
 
@@ -40,6 +40,6 @@ To allow all new bash instances to start working on the "active" CTF, add this t
 ```bash
 source /usr/local/bin/active_ctf.sh
 ```
-This will add a `.active_ctf` file in `$PROJECT_HOME` containing the name of the CTF.
+This will use the `.active_ctf` file in `$PROJECT_HOME` containing the name of the CTF.
 
 If you wish to disable this after the CTF, run `endctf` which will simply delete the `.active_ctf` file.
