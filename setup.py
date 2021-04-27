@@ -26,6 +26,7 @@ setup(
         ],
         'console_scripts': [
             'vctf=vctf.__main__:main',
+            'ctf=vctf.__main__:main',
         ],
     },
     scripts=[
