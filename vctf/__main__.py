@@ -79,7 +79,13 @@ def main():
             parser.error("the following arguments are required: args.  [category challenge] not given")
         category = args.args[0]
         challenge = args.args[1]
-        vctf.add_challenge(category, challenge)
+        try:
+            name = vctf.get_active()
+        except FileNotFoundError:
+            parser.error("active ctf not found")
+        config = args.config if args.config else vctf.get_ctf_config(name)
+        c = ctf.get_platform_object(config)
+        c.add(category, challenge)
 
     # list challenges from ctf
     #   `list [name]`
