@@ -10,6 +10,12 @@ from vctf.ctf.ctf import CTF
 from vctf.ctf.ctf import parse_challenge_name
 
 
+CHALLENGES_ROUTE = '/api/v1/challenges'
+CHALLENGE_ROUTE = '/api/v1/challenges/{id}'
+ATTEMPT_ROUTE = '/api/v1/challenges/attempt'
+LOGIN_ROUTE = '/login'
+CHALLENGES_PAGE = '/challenges'
+
 class CTFd(CTF):
     def __init__(self, config_filename):
         super().__init__(config_filename)
@@ -22,7 +28,7 @@ class CTFd(CTF):
         self.session = requests.session()
 
         # get nonces/tokens
-        r = self.session.get(self.url + '/login')
+        r = self.session.get(self.url + LOGIN_ROUTE)
         if not r.ok:
             raise Exception("Error querying site")
 
@@ -46,7 +52,7 @@ class CTFd(CTF):
             "password": self.password,
             "nonce": nonce,
         }
-        r = self.session.post(self.url + '/login', data=auth_args)
+        r = self.session.post(self.url + LOGIN_ROUTE, data=auth_args)
         if not r.ok:
             raise Exception("Error logging in")
 
@@ -54,7 +60,7 @@ class CTFd(CTF):
         """
         Requests challenges from CTFd api
         """
-        route = '/api/v1/challenges'
+        route = CHALLENGES_ROUTE
         r = self.session.get(self.url + route)
         if not r.ok:
             print(r)
@@ -69,7 +75,7 @@ class CTFd(CTF):
         """
         Requests a challenge from CTFd api
         """
-        route = '/api/v1/challenges/' + str(id)
+        route = CHALLENGE_ROUTE.format(id=id)
         r = self.session.get(self.url + route)
         if not r.ok:
             print(r)
@@ -85,7 +91,7 @@ class CTFd(CTF):
         Attempt a flag for a given challenge
         """
         # update csrf token
-        route = '/challenges'
+        route = CHALLENGES_PAGE
         r = self.session.get(self.url + route)
         if not r.ok:
             raise Exception("Error querying site")
@@ -98,7 +104,7 @@ class CTFd(CTF):
         self.csrfNonce = found[0]
 
 
-        route = '/api/v1/challenges/attempt'
+        route = ATTEMPT_ROUTE
         data = {"challenge_id": int(id), "submission": flag}
         headers = {"CSRF-Token": self.csrfNonce}
         r = self.session.post(self.url + route, json=data, headers=headers)
