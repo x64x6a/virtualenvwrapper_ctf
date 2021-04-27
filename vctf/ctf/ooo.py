@@ -65,7 +65,8 @@ class OOO(CTF):
         challenges = self._challenges()
         columns = ["name", "category", "tags", "description"]
         df = pandas.DataFrame(challenges, columns=columns)
-        print(df)
+        df = df.sort_values(by='category')
+        print(df.to_string(index=False))
 
     def pull(self):
         """

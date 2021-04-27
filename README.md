@@ -72,13 +72,14 @@ $ vctf init local -u test -p test -d http://127.0.0.1:4000 -f ctfd
 ...
 
 $ vctf list
-   id   category           name  value  solves  solved_by_me
-0   2        pwn      Exploit I    100       1          True
-1   3  reversing    Reversing I    100       0         False
-2   1       misc    Challenge I    200       1          True
-3   4  reversing   Reversing II    200       0         False
-4   6        pwn     Exploit II    200       0         False
-5   5  reversing  Reversing III    300       0         False
+ id  category          name  value  solves  solved_by_me
+  1      misc   Challenge I    200       1          True
+  2       pwn     Exploit I    100       1          True
+  6       pwn    Exploit II    200       0         False
+  3 reversing   Reversing I    100       0         False
+  4 reversing  Reversing II    200       0         False
+  5 reversing Reversing III    300       0         False
+
 
 $ vctf pull
 Challenge: pwn - Exploit_I (2): ~/ctf/local/pwn/Exploit_I
@@ -104,11 +105,11 @@ $ vctf submit 6 "FLAG{some_flag}"
 Correct
 
 $ vctf list
-   id   category           name  value  solves  solved_by_me
-0   2        pwn      Exploit I    100       1          True
-1   3  reversing    Reversing I    100       0         False
-2   1       misc    Challenge I    200       1          True
-3   4  reversing   Reversing II    200       0         False
-4   6        pwn     Exploit II    200       1          True
-5   5  reversing  Reversing III    300       0         False
+id  category          name  value  solves  solved_by_me
+ 1      misc   Challenge I    200       1          True
+ 2       pwn     Exploit I    100       1          True
+ 6       pwn    Exploit II    200       1          True
+ 3 reversing   Reversing I    100       0         False
+ 4 reversing  Reversing II    200       0         False
+ 5 reversing Reversing III    300       0         False
 ```

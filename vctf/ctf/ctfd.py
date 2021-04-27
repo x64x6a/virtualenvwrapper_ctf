@@ -122,7 +122,8 @@ class CTFd(CTF):
         challenges = self._challenges()
         columns = ["id", "category", "name", "value", "solves", "solved_by_me"]
         df = pandas.DataFrame(challenges, columns=columns)
-        print(df)
+        df = df.sort_values(by='category')
+        print(df.to_string(index=False))
 
     def pull(self):
         """
