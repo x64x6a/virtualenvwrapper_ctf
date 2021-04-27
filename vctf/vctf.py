@@ -122,20 +122,14 @@ def init(config, name, username=None, password=None, url=None, platform=None, di
     config_parser['DEFAULT']['name'] = name
 
     # set creds
-    if username != None:
-        config_parser['DEFAULT']['username'] = username
-    if password != None:
-        config_parser['DEFAULT']['password'] = password
+    config_parser['DEFAULT']['username'] = '' if username == None else username
+    config_parser['DEFAULT']['password'] = '' if password == None else password
 
     # set platform
-    if platform == None:
-        config_parser['DEFAULT']['platform'] = default_platform_name
-    else:
-        config_parser['DEFAULT']['platform'] = platform
+    config_parser['DEFAULT']['platform'] = default_platform_name if platform == None else platform
 
     # set url domain
-    if url != None:
-        config_parser['DEFAULT']['url'] = url
+    config_parser['DEFAULT']['url'] = '' if  url == None else url
 
     # set directories and save
     config_parser['DEFAULT']['directory'] = ctf_directory
