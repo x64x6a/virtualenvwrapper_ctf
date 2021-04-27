@@ -3,7 +3,7 @@ import os
 import shutil
 import subprocess
 
-from vctf.ctf import platforms
+from vctf.ctf import platforms, default_platform_name
 
 
 TEMPLATE_DIR = '.template'
@@ -114,17 +114,30 @@ def init(config, name, username=None, password=None, url=None, platform=None, di
         elif os.path.isdir(src_path):
             shutil.copytree(src_path, dst_path)
 
+
     ## Setup CTF config file
     config_parser = configparser.ConfigParser()
+
+    # set ctf name
     config_parser['DEFAULT']['name'] = name
+
+    # set creds
     if username != None:
         config_parser['DEFAULT']['username'] = username
     if password != None:
         config_parser['DEFAULT']['password'] = password
-    if platform != None:
+
+    # set platform
+    if platform == None:
+        config_parser['DEFAULT']['platform'] = default_platform_name
+    else:
         config_parser['DEFAULT']['platform'] = platform
+
+    # set url domain
     if url != None:
         config_parser['DEFAULT']['url'] = url
+
+    # set directories and save
     config_parser['DEFAULT']['directory'] = ctf_directory
     config_parser['DEFAULT']['project_home'] = project_home
     with open(config, 'w') as f:
