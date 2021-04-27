@@ -19,27 +19,28 @@ class CTF(object):
         """
         pull challenges
         """
-        pass
+        print("pull not supported for {}".format(self.platform))
     def list(self):
         """
         list challenges
         """
-        pass
-    def add(self):
+        print("list not supported for {}".format(self.platform))
+    def add(self, category, name):
         """
         manually add challenge
         """
-        pass
-    def delete(self):
+        from vctf.vctf import add_challenge
+        return add_challenge(category, name)
+    def delete(self, *args):
         """
         manually delete challenge
         """
-        pass
-    def submit(self, id, flag):
+        print("delete not supported for {}".format(self.platform))
+    def submit(self, *args):
         """
         submit a flag for a challenge
         """
-        pass
+        print("submit not supported for {}".format(self.platform))
 
 
 # for parsing challenge names, characteres chosen for personal preferance

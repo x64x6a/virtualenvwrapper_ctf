@@ -122,8 +122,6 @@ class CTFd(CTF):
         """
         Gets challenges and makes appropriate directories locally
         """
-        from vctf.vctf import add_challenge
-
         challenges = self._challenges()
         for c in challenges:
             id = c['id']
@@ -138,7 +136,7 @@ class CTFd(CTF):
 
             name = parse_challenge_name(name)
             category = parse_challenge_name(category)
-            challenge_path = add_challenge(category, name)
+            challenge_path = self.add(category, name)
             s = "Challenge: {cat} - {name} ({id}): {path}".format(cat=category, name=name, id=id, path=challenge_path)
             print(s)
 
