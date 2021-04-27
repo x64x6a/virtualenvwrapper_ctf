@@ -12,6 +12,16 @@ from vctf import ctf
 
 log = logging.getLogger(__name__)
 
+def get_name_or_active(args):
+    if args.args is None or len(args.args) == 0:
+        try:
+            name = vctf.get_active()
+        except FileNotFoundError:
+            name = None
+    else:
+        name = args.args[0]
+    return name
+
 def main():
     parser = argparse.ArgumentParser(
         prog=(__package__ or __file__),
@@ -28,13 +38,15 @@ def main():
     parser.add_argument('--password', '-p')
     parser.add_argument('--url', '-d', help='Root web URL')
     parser.add_argument('--platform', '-f', help='Hosting platform, supported: ' + ','.join(ctf.get_platforms()))
-    parser.add_argument('--directory', help='Specify CTF directory')
-    parser.add_argument('--project_home', help='Specify directory if $PROJECT_HOME not used')
+    parser.add_argument('--directory', help='CTF directory if not using default')
+    parser.add_argument('--project_home', help='Directory if $PROJECT_HOME not used')
+    parser.add_argument('--config', help='Config file if not using default')
 
     args = parser.parse_args()
     command = args.command
 
-    #init(config, name, username=None, password=None, url=None, platform=None, directory=None, project_home=None)
+    # initialize a ctf, including directories and config file
+    #   `init name [-u username] [-p password] [-d url] [-f platform]`
     if command == 'init' or command == 'i':
         if args.args is None or len(args.args) == 0:
             parser.error("the following arguments are required: args.  [name] not given")
@@ -44,47 +56,53 @@ def main():
             "url": args.url, "platform": args.platform,
             "directory": args.directory, "project_home": args.project_home
         }
-        config = vctf.get_ctf_config(name)
+        config = args.config if args.config else vctf.get_ctf_config(name)
         vctf.init(config, name, **init_kwargs)
+
+    # start a ctf, setting it as active
+    #   `start name`
     elif command == 'start' or command == 's':
         if args.args is None or len(args.args) == 0:
             parser.error("the following arguments are required: args.  [name] not given")
         name = args.args[0]
         vctf.set_active(name)
+
+    # end active ctf
+    #   `end`
     elif command == 'end' or command == 'e':
         vctf.end()
+
+    # add a challenge manually for active ctf
+    #   `add category challenge`
     elif command == 'add' or command == 'a':
         if args.args is None or len(args.args) < 2:
             parser.error("the following arguments are required: args.  [category challenge] not given")
         category = args.args[0]
         challenge = args.args[1]
         vctf.add_challenge(category, challenge)
+
+    # list challenges from ctf
+    #   `list [name]`
     elif command == 'list' or command == 'l':
-        if args.args is None or len(args.args) == 0:
-            try:
-                name = vctf.get_active()
-            except FileNotFoundError:
-                name = None
-            if name is None or len(name) == 0:
-                parser.error("the following arguments are required: args.  [name] not given")
-        else:
-            name = args.args[0]
-        config = vctf.get_ctf_config(name)
+        name = get_name_or_active(args)
+        if args.args is None:
+            parser.error("the following arguments are required: args.  [name] not given")
+        config = args.config if args.config else vctf.get_ctf_config(name)
         c = ctf.get_platform_object(config)
         c.list()
+
+    # pull challenge files and create directories
+    #   `pull [name]`
     elif command == 'pull' or command == 'p':
-        if args.args is None or len(args.args) == 0:
-            try:
-                name = vctf.get_active()
-            except FileNotFoundError:
-                name = None
-            if name is None or len(name) == 0:
-                parser.error("the following arguments are required: args.  [name] not given")
-        else:
-            name = args.args[0]
-        config = vctf.get_ctf_config(name)
+        name = get_name_or_active(args)
+        if args.args is None:
+            parser.error("the following arguments are required: args.  [name] not given")
+        config = args.config if args.config else vctf.get_ctf_config(name)
         c = ctf.get_platform_object(config)
         c.pull()
+
+    # submit a given flag for given challenge_id
+    #   `submit id flag`
     elif command == 'submit':
         try:
             name = vctf.get_active()
@@ -94,9 +112,10 @@ def main():
             parser.error("the following arguments are required: args.  [challenge_id flag] not given")
         id = args.args[0]
         flag = args.args[1]
-        config = vctf.get_ctf_config(name)
+        config = args.config if args.config else vctf.get_ctf_config(name)
         c = ctf.get_platform_object(config)
         c.submit(id, flag)
+
     else:
         parser.error("command not supported")
 
