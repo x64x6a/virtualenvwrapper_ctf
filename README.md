@@ -46,7 +46,7 @@ This will use the `.active_ctf` file in `$PROJECT_HOME` containing the name of t
 
 If you wish to disable this after the CTF, run `endctf` which will simply delete the `.active_ctf` file.
 
-## Example
+## Examples
 
 Start a new ctf:
 ```bash
@@ -60,4 +60,55 @@ Start a new challenge while within the virtualenv, use `addchallenge [category] 
 (pwnable.kr) ~/ctf/pwnable.kr$ cd toddlers/bof/
 (pwnable.kr) ~/ctf/pwnable.kr/toddlers/bof$ ls
 flag  flag.txt  template.py
+```
+
+### CTF Platform Support
+
+There is also integration with some CTF scoreboard platforms to automatically download challenges as well as making a directory structure.
+
+Example with local CTFd instance:
+```bash
+$ vctf init local -u test -p test -d http://127.0.0.1:4000 -f ctfd
+...
+
+$ vctf list
+   id   category           name  value  solves  solved_by_me
+0   2        pwn      Exploit I    100       1          True
+1   3  reversing    Reversing I    100       0         False
+2   1       misc    Challenge I    200       1          True
+3   4  reversing   Reversing II    200       0         False
+4   6        pwn     Exploit II    200       0         False
+5   5  reversing  Reversing III    300       0         False
+
+$ vctf pull
+Challenge: pwn - Exploit_I (2): ~/ctf/local/pwn/Exploit_I
+ [+] Added file for challenge 2 '~/ctf/local/pwn/Exploit_I/exploit_i'
+Challenge: reversing - Reversing_I (3): ~/ctf/local/reversing/Reversing_I
+ [+] Added file for challenge 3 '~/ctf/local/reversing/Reversing_I/crackme'
+Challenge: misc - Challenge_I (1): ~/ctf/local/misc/Challenge_I
+ [+] Added file for challenge 1 '~/ctf/local/misc/Challenge_I/misc_i'
+Challenge: reversing - Reversing_II (4): ~/ctf/local/reversing/Reversing_II
+ [+] Added file for challenge 4 '~/ctf/local/reversing/Reversing_II/crackme_ii'
+Challenge: pwn - Exploit_II (6): ~/ctf/local/pwn/Exploit_II
+ [+] Added file for challenge 6 '~/ctf/local/pwn/Exploit_II/exploit_ii'
+Challenge: reversing - Reversing_III (5): ~/ctf/local/reversing/Reversing_III
+ [+] Added file for challenge 5 '~/ctf/local/reversing/Reversing_III/crackme_iii'
+
+$ ls ~/ctf/local/
+flag  flag.txt  misc  pwn  reversing  solve.py
+
+$ ls ~/ctf/local/pwn/Exploit_II/
+exploit_ii  flag  flag.txt  notes.md  solve.py
+
+$ vctf submit 6 "FLAG{some_flag}"
+Correct
+
+$ vctf list
+   id   category           name  value  solves  solved_by_me
+0   2        pwn      Exploit I    100       1          True
+1   3  reversing    Reversing I    100       0         False
+2   1       misc    Challenge I    200       1          True
+3   4  reversing   Reversing II    200       0         False
+4   6        pwn     Exploit II    200       1          True
+5   5  reversing  Reversing III    300       0         False
 ```
