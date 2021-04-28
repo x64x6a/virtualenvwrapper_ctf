@@ -20,7 +20,10 @@ FAKE_FLAG = b'FLAG{THIS_IS_A_FLAG}'
 FLAG_FILES = ['flag', 'flag.txt']
 
 def get_project_home():
-    return os.getenv('PROJECT_HOME')
+    project_home = os.getenv('PROJECT_HOME')
+    if not os.path.exists(project_home):
+        os.mkdir(project_home)
+    return project_home
 
 def get_config_directory():
     project_home = get_project_home()
@@ -69,7 +72,7 @@ def init(config, name, username=None, password=None, url=None, platform=None, di
     # set CTFs' root directory
     if project_home == None:
         project_home = get_project_home()
-    if not os.path.exists(project_home):
+    elif not os.path.exists(project_home):
         os.mkdir(project_home)
 
     # set CTF root directory
