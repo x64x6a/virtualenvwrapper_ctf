@@ -69,6 +69,8 @@ def init(config, name, username=None, password=None, url=None, platform=None, di
     # set CTFs' root directory
     if project_home == None:
         project_home = get_project_home()
+    if not os.path.exists(project_home):
+        os.mkdir(project_home)
 
     # set CTF root directory
     if directory:
