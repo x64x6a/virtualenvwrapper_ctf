@@ -109,7 +109,7 @@ def main():
 
     # submit a given flag for given challenge_id
     #   `submit id flag`
-    elif command == 'submit':
+    elif command == 'submit' or command == 'solve':
         try:
             name = vctf.get_active()
         except FileNotFoundError:
