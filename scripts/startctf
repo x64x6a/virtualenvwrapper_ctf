@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source /usr/local/bin/virtualenvwrapper.sh
+source ~/.bashrc
 
 if [ "$1" != "" ]; then
     CTF_EXISTS=`lsvirtualenv -b | grep -w "$1"`

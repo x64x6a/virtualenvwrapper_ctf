@@ -11,11 +11,12 @@ pip3 install .
 ```
 
 
-Make sure `virtualenvwrapper` is installed and `$PROJECT_HOME` is set to your CTF directory.  This can be done in `~/.bashrc`:
+Make sure `virtualenvwrapper` is installed and `$PROJECT_HOME` is set to your CTF directory.  This can be done in `~/.bashrc` with something like like:
 ```bash
+export PATH=~/.local/bin:$PATH
 export WORKON_HOME=~/.virtualenvs
 export VIRTUALENVWRAPPER_PYTHON='/usr/bin/python3'
-source /usr/local/bin/virtualenvwrapper.sh
+source ~/.local/bin/virtualenvwrapper.sh
 
 export PROJECT_HOME=~/ctf
 ```
