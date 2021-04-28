@@ -1,6 +1,7 @@
 #!/bin/bash
 
-source ~/.bashrc
+# using virtualenvwrapper
+source $VIRTUALENVWRAPPER_SCRIPT
 
 if [ "$1" != "" ]; then
     CTF_EXISTS=`lsvirtualenv -b | grep -w "$1"`
